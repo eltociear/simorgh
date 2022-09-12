@@ -1,66 +1,57 @@
 import React from 'react';
-import { withKnobs, select } from '@storybook/addon-knobs';
+import { withKnobs } from '@storybook/addon-knobs';
 
 import { ServiceContextProvider } from '../../contexts/ServiceContext';
 import { withServicesKnob } from '../../legacy/psammead/psammead-storybook-helpers/src';
 import { Services, Variants } from '../../models/types/global';
 import ThemeProvider from '../ThemeProvider';
 import InlineLink from '.';
+import Text from '../Text';
 
 interface Props {
+  children: React.ReactNode;
   service: Services;
   variant: Variants;
   text: string;
 }
 
-const EMPTY_OPTION = '--';
+const Providers = ({ children, service, variant }: Omit<Props, 'text'>) => (
+  <ThemeProvider service={service} variant={variant}>
+    <ServiceContextProvider service={service} variant={variant}>
+      {children}
+    </ServiceContextProvider>
+  </ThemeProvider>
+);
 
-const InlineLinkStory = ({ service, variant, text }: Props) => {
-  const selectedFontVariant = select(
-    'fontVariant',
-    {
-      [EMPTY_OPTION]: EMPTY_OPTION,
-      sansRegular: 'sansRegular',
-      sansRegularItalic: 'sansRegularItalic',
-      sansBold: 'sansBold',
-      sansBoldItalic: 'sansBoldItalic',
-      sansLight: 'sansLight',
-      serifRegular: 'serifRegular',
-      serifMedium: 'serifMedium',
-      serifMediumItalic: 'serifMediumItalic',
-      serifBold: 'serifBold',
-      serifLight: 'serifLight',
-    },
-    EMPTY_OPTION,
-  );
-  const selectedSize = select(
-    'size',
-    {
-      [EMPTY_OPTION]: EMPTY_OPTION,
-      atlas: 'atlas',
-      elephant: 'elephant',
-      imperial: 'imperial',
-      royal: 'royal',
-      foolscap: 'foolscap',
-      canon: 'canon',
-      trafalgar: 'trafalgar',
-      paragon: 'paragon',
-      doublePica: 'doublePica',
-      greatPrimer: 'greatPrimer',
-      bodyCopy: 'bodyCopy',
-      pica: 'pica',
-      longPrimer: 'longPrimer',
-      brevier: 'brevier',
-      minion: 'minion',
-    },
-    EMPTY_OPTION,
-  );
+const InlineLinkStory = ({
+  service,
+  variant,
+  text,
+}: Omit<Props, 'children'>) => (
+  <Providers service={service} variant={variant}>
+    <InlineLink to="/" text={text} />
+  </Providers>
+);
+
+const InsideTextStory = ({
+  service,
+  variant,
+  text,
+}: Omit<Props, 'children'>) => {
+  const words = text.split(' ');
+  const randomNumber = Math.floor(Math.random() * words.length);
+  const randomWord = words[randomNumber];
+
   return (
-    <ThemeProvider service={service} variant={variant}>
-      <ServiceContextProvider service={service} variant={variant}>
-        <InlineLink to="/" text={text} />
-      </ServiceContextProvider>
-    </ThemeProvider>
+    <Providers service={service} variant={variant}>
+      <Text fontVariant="sansBoldItalic">
+        {words.slice(0, randomNumber).join(' ')}
+        &nbsp;
+        <InlineLink to="http://bbc.com" text={randomWord} />
+        &nbsp;
+        {words.slice(randomNumber + 1).join(' ')}
+      </Text>
+    </Providers>
   );
 };
 
@@ -76,3 +67,4 @@ export default {
 };
 
 export const Example = InlineLinkStory;
+export const InsideText = InsideTextStory;
