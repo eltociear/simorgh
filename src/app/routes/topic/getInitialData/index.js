@@ -5,6 +5,7 @@ import Url from 'url-parse';
 import { getUrlPath } from '#lib/utilities/urlParser';
 import fetchPageData from '../../utils/fetchPageData';
 import getErrorStatusCode from '../../utils/fetchPageData/utils/getErrorStatusCode';
+import pidgin from './pidgin.json';
 
 const logger = nodeLogger(__filename);
 
@@ -28,20 +29,20 @@ export default async ({ getAgent, service, path: pathname, variant, page }) => {
         page,
       }),
     });
-    const optHeaders = { 'ctx-service-env': env };
-    const { status, json } = await fetchPageData({
-      path: parsedBffUrl.toString(),
-      agent,
-      optHeaders,
-    });
-    const { data } = json;
+    // const optHeaders = { 'ctx-service-env': env };
+    // const { status, json } = await fetchPageData({
+    //   path: parsedBffUrl.toString(),
+    //   agent,
+    //   optHeaders,
+    // });
+    const { data } = pidgin;
 
     const imageData = data.imageData || null;
 
     const scriptSwitchId = data.variantTopicId;
 
     return {
-      status,
+      status: 200,
       pageData: {
         title: data.title,
         description: data.description,
