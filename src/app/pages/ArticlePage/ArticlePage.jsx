@@ -29,7 +29,6 @@ import { singleTextBlock } from '#app/models/blocks';
 import { articleDataPropTypes } from '#models/propTypes/article';
 import ArticleMetadata from '#containers/ArticleMetadata';
 import { RequestContext } from '#contexts/RequestContext';
-import { ServiceContext } from '#contexts/ServiceContext';
 import headings from '#containers/Headings';
 import visuallyHiddenHeadline from '#containers/VisuallyHiddenHeadline';
 import gist from '#containers/Gist';
@@ -47,7 +46,6 @@ import MostReadContainer from '#containers/MostRead';
 import MostReadSection from '#containers/MostRead/section';
 import MostReadSectionLabel from '#containers/MostRead/label';
 import SocialEmbedContainer from '#containers/SocialEmbed';
-
 import AdContainer from '#containers/Ad';
 import CanonicalAdBootstrapJs from '#containers/Ad/Canonical/CanonicalAdBootstrapJs';
 
@@ -66,7 +64,9 @@ import filterForBlockType from '#lib/utilities/blockHandlers';
 import RelatedTopics from '#containers/RelatedTopics';
 import NielsenAnalytics from '#containers/NielsenAnalytics';
 import ScrollablePromo from '#components/ScrollablePromo';
-import ArticleRelatedContent from '#containers/ArticleRelatedContent';
+import Byline from './Byline';
+import { ServiceContext } from '../../contexts/ServiceContext';
+import RelatedContentSection from './PagePromoSections/RelatedContentSection';
 
 import SecondaryColumn from './SecondaryColumn';
 
@@ -128,28 +128,6 @@ const ArticlePage = ({ pageData, mostReadEndpointOverride }) => {
 
   const adcampaign = path(['metadata', 'adCampaignKeyword'], pageData);
 
-  const componentsToRender = {
-    visuallyHiddenHeadline,
-    headline: headings,
-    subheadline: headings,
-    audio: articleMediaPlayer,
-    video: articleMediaPlayer,
-    text,
-    image: props => (
-      <Image
-        {...props}
-        sizes="(min-width: 1008px) 760px, 100vw"
-        shouldPreload={preloadLeadImageToggle}
-      />
-    ),
-    timestamp: props => <Timestamp {...props} popOut={false} />,
-    social: SocialEmbedContainer,
-    group: gist,
-    links: props => <ScrollablePromo {...props} />,
-    mpu: props =>
-      isAdsEnabled ? <MpuContainer {...props} slotType="mpu" /> : null,
-  };
-
   const headline = getHeadline(pageData);
   const description = getSummary(pageData) || getHeadline(pageData);
   const firstPublished = getFirstPublished(pageData);
@@ -158,6 +136,40 @@ const ArticlePage = ({ pageData, mostReadEndpointOverride }) => {
   const topics = path(['metadata', 'topics'], pageData);
   const blocks = pathOr([], ['content', 'model', 'blocks'], pageData);
   const startsWithHeading = propEq('type', 'headline')(blocks[0] || {});
+  const hasByline = blocks.find(block => block.type === 'byline');
+
+  const componentsToRender = {
+    visuallyHiddenHeadline,
+    headline: headings,
+    subheadline: headings,
+    audio: articleMediaPlayer,
+    video: articleMediaPlayer,
+    text,
+    byline: props =>
+      hasByline ? (
+        <Byline {...props}>
+          <Timestamp
+            firstPublished={new Date(firstPublished).getTime()}
+            lastPublished={new Date(lastPublished).getTime()}
+            popOut={false}
+          />
+        </Byline>
+      ) : null,
+    image: props => (
+      <Image
+        {...props}
+        sizes="(min-width: 1008px) 760px, 100vw"
+        shouldPreload={preloadLeadImageToggle}
+      />
+    ),
+    timestamp: props =>
+      hasByline ? null : <Timestamp {...props} popOut={false} />,
+    social: SocialEmbedContainer,
+    group: gist,
+    links: props => <ScrollablePromo {...props} />,
+    mpu: props =>
+      isAdsEnabled ? <MpuContainer {...props} slotType="mpu" /> : null,
+  };
 
   const visuallyHiddenBlock = {
     id: null,
@@ -247,7 +259,7 @@ const ArticlePage = ({ pageData, mostReadEndpointOverride }) => {
               tagBackgroundColour={C_WHITE}
             />
           )}
-          <ArticleRelatedContent content={last(blocks)} />
+          <RelatedContentSection content={last(blocks)} />
         </Primary>
         <SecondaryColumn pageData={pageData} />
       </ArticlePageGrid>
