@@ -1,6 +1,4 @@
 /* eslint-disable jsx-a11y/aria-role */
-/** @jsx jsx */
-import { jsx } from '@emotion/react';
 import React, { useContext, PropsWithChildren } from 'react';
 import pathOr from 'ramda/src/pathOr';
 import { ServiceContext } from '../../../contexts/ServiceContext';
@@ -74,7 +72,7 @@ const Byline = ({ blocks, children }: PropsWithChildren<Props>) => {
         )}
         <li>
           {authorTopicUrl ? (
-            <React.Fragment>
+            <>
               <VisuallyHiddenText>{`${authorTranslated}, `}</VisuallyHiddenText>
               <a
                 css={[BylineCss.link, BylineCss.authorLink]}
@@ -94,7 +92,7 @@ const Byline = ({ blocks, children }: PropsWithChildren<Props>) => {
                   <RightChevron css={BylineCss.authorChevron} />
                 )}
               </a>
-            </React.Fragment>
+            </>
           ) : (
             <span role="text">
               <VisuallyHiddenText>{`${authorTranslated}, `}</VisuallyHiddenText>

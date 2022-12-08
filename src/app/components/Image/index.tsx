@@ -1,13 +1,10 @@
-/** @jsx jsx */
-/* @jsxFrag React.Fragment */
 import React, {
   Fragment,
   PropsWithChildren,
   useState,
   useContext,
 } from 'react';
-import { Global, jsx } from '@emotion/react';
-import { Helmet } from 'react-helmet';
+import { Global } from '@emotion/react';
 import styles from './index.styles';
 import { RequestContext } from '../../contexts/RequestContext';
 import { FRONT_PAGE } from '../../routes/utils/pageTypes';
@@ -88,7 +85,7 @@ const Image = ({
 
   return (
     <>
-      {preload && (
+      {/* {preload && (
         <Helmet>
           <link
             rel="preload"
@@ -98,7 +95,7 @@ const Image = ({
             imagesizes={sizes}
           />
         </Helmet>
-      )}
+      )} */}
       <div
         className={className}
         css={[styles.wrapper, showPlaceholder && styles.placeholder]}

@@ -1,6 +1,4 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/react';
-import { useContext, MouseEvent } from 'react';
+import React, { useContext, MouseEvent } from 'react';
 import pathOr from 'ramda/src/pathOr';
 
 import Text from '../Text';
