@@ -4,9 +4,9 @@ import clone from 'ramda/src/clone';
 import { string } from 'prop-types';
 import ScriptLink from '#psammead/psammead-script-link/src';
 import { UserContext } from '#contexts/UserContext';
-import { ServiceContext } from '#contexts/ServiceContext';
 import useToggle from '#hooks/useToggle';
 import { useRouter } from 'next/router';
+import { ServiceContext } from '../../../../contexts/ServiceContext';
 
 export const getVariantHref = ({
   path,

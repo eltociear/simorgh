@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import Script from 'next/script';
 import { string, shape, arrayOf, bool, object } from 'prop-types';
-import { ServiceContext } from '#contexts/ServiceContext';
 import { RequestContext } from '#contexts/RequestContext';
 import serialiseForScript from '#lib/utilities/serialiseForScript';
 import getBrandedImage from '#lib/utilities/getBrandedImage';
+import { ServiceContext } from '../../../contexts/ServiceContext';
 import getAboutTagsContent from './getAboutTagsContent';
 
 const LinkedData = ({
@@ -18,6 +18,7 @@ const LinkedData = ({
   aboutTags,
   entities,
   imageLocator,
+  bylineLinkedData,
 }) => {
   const {
     brandName,
@@ -50,6 +51,33 @@ const LinkedData = ({
     url: defaultImage,
   };
 
+  const newsPublisherLogo = {
+    '@type': IMG_TYPE,
+    width: 103,
+    height: 16,
+    url: 'https://static.files.bbci.co.uk/ws/simorgh-assets/public/news/images/metadata/publisher-nx16.png',
+  };
+
+  const sportPublisherLogo = {
+    '@type': IMG_TYPE,
+    width: 108,
+    height: 16,
+    url: 'https://static.files.bbci.co.uk/ws/simorgh-assets/public/sport/images/metadata/publisher-nx16.png',
+  };
+
+  const choosePublisherLogo = () => {
+    switch (service) {
+      case 'news':
+        return newsPublisherLogo;
+      case 'sport':
+        return sportPublisherLogo;
+      default:
+        return logo;
+    }
+  };
+
+  const publisherLogo = choosePublisherLogo();
+
   const image = {
     '@type': IMG_TYPE,
     width: 1024,
@@ -63,7 +91,7 @@ const LinkedData = ({
     '@type': ORG_TYPE,
     name: AUTHOR_PUBLISHER_NAME,
     ...(isTrustProjectParticipant && { publishingPrinciples }),
-    logo,
+    logo: publisherLogo,
   };
   const mainEntityOfPage = {
     '@type': WEB_PAGE_TYPE,
@@ -76,6 +104,36 @@ const LinkedData = ({
     name: languageName,
     alternateName: lang,
   };
+
+  const hasByline = !!bylineLinkedData;
+
+  const { authorName, authorTopicUrl, twitterLink, authorImage, location } =
+    bylineLinkedData || {};
+
+  const sameAs = [authorTopicUrl, twitterLink].filter(Boolean);
+
+  const locationCreated = { '@place': location };
+
+  const orgAuthor = {
+    '@type': ORG_TYPE,
+    name: AUTHOR_PUBLISHER_NAME,
+    logo: {
+      '@type': 'ImageObject',
+      width: 1024,
+      height: 576,
+      url: defaultImage,
+    },
+    ...(isTrustProjectParticipant && { noBylinesPolicy }),
+  };
+
+  const bylineAuthor = {
+    '@type': 'Person',
+    name: authorName,
+    ...(sameAs.length && { sameAs }),
+    ...(authorImage && { image: authorImage }),
+  };
+
+  const author = hasByline ? bylineAuthor : orgAuthor;
 
   const linkedData = {
     '@type': type,
@@ -90,18 +148,9 @@ const LinkedData = ({
     inLanguage,
     ...(aboutTags && { about: getAboutTagsContent(aboutTags) }),
     ...(showAuthor && {
-      author: {
-        '@type': ORG_TYPE,
-        name: AUTHOR_PUBLISHER_NAME,
-        logo: {
-          '@type': 'ImageObject',
-          width: 1024,
-          height: 576,
-          url: defaultImage,
-        },
-        ...(isTrustProjectParticipant && { noBylinesPolicy }),
-      },
+      author,
     }),
+    ...(hasByline && location && { locationCreated }),
   };
 
   return (
@@ -132,6 +181,15 @@ LinkedData.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   entities: arrayOf(object),
   imageLocator: string,
+  bylineLinkedData: shape({
+    authorName: string,
+    jobRole: string,
+    twitterText: string,
+    twitterLink: string,
+    authorImage: string,
+    location: string,
+    authorTopicUrl: string,
+  }),
 };
 
 LinkedData.defaultProps = {
@@ -143,6 +201,7 @@ LinkedData.defaultProps = {
   aboutTags: undefined,
   entities: [],
   imageLocator: undefined,
+  bylineLinkedData: undefined,
 };
 
 export default LinkedData;

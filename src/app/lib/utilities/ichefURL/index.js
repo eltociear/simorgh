@@ -17,7 +17,13 @@ const buildPlaceholderSrc = (src, resolution) => {
   return `https://${newUrl.join('/')}`;
 };
 
-const buildIChefURL = ({ originCode, locator, resolution, isWebP = false }) => {
+const buildIChefURL = ({
+  originCode,
+  locator,
+  resolution,
+  isWebP = false,
+  isPng = false,
+}) => {
   if (originCode === 'mpv' || originCode === 'pips') {
     return buildPlaceholderSrc(locator, resolution);
   }
@@ -26,10 +32,13 @@ const buildIChefURL = ({ originCode, locator, resolution, isWebP = false }) => {
     process.env.NEXT_PUBLIC_SIMORGH_ICHEF_BASE_URL ||
       'https://ichef.bbci.co.uk',
     'news',
+    isPng ? 'png' : null,
     resolution,
     originCode,
     locator,
-  ].join('/');
+  ]
+    .filter(Boolean)
+    .join('/');
 
   const isWebPSupported = isWebP && WEBP_ORIGIN_CODES.includes(originCode);
 

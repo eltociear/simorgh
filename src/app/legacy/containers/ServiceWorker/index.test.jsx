@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { ServiceContext } from '#contexts/ServiceContext';
+import { ServiceContext } from '../../../contexts/ServiceContext';
 import ServiceWorkerContainer from './index';
 
 const contextStub = {
@@ -33,18 +33,6 @@ describe('Service Worker', () => {
       expect(navigator.serviceWorker.register).toHaveBeenCalledWith(
         `/news/articles/sw.js`,
       );
-    });
-  });
-
-  describe('on dev environment', () => {
-    it('should not be installed', async () => {
-      process.env.NODE_ENV = 'dev';
-      wrapper = render(
-        <ServiceContext.Provider value={contextStub}>
-          <ServiceWorkerContainer />
-        </ServiceContext.Provider>,
-      );
-      expect(navigator.serviceWorker.register).not.toHaveBeenCalled();
     });
   });
 

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { string, node, shape, arrayOf, bool, number } from 'prop-types';
 import Head from 'next/head';
-import { ServiceContext } from '#contexts/ServiceContext';
 import { RequestContext } from '#contexts/RequestContext';
+import { ServiceContext } from '../../../contexts/ServiceContext';
 import {
   getIconAssetUrl,
   getIconLinks,
@@ -39,7 +39,7 @@ const renderTags = tags =>
 const MetadataContainer = ({
   title,
   socialHeadline,
-  lang,
+  twitterHandle,
   description,
   openGraphType,
   aboutTags,
@@ -68,7 +68,6 @@ const MetadataContainer = ({
     brandName,
     defaultImage,
     defaultImageAltText,
-    dir,
     locale,
     isoLang,
     themeColor,
@@ -101,6 +100,8 @@ const MetadataContainer = ({
 
   const pageTitle = `${title} - ${brandName}`;
   const socialTitle = `${socialHeadline || title} - ${brandName}`;
+
+  const metaTwitterHandle = twitterHandle || twitterCreator;
 
   const metaImage = image || defaultImage;
   const metaImageAltText = imageAltText || defaultImageAltText;
@@ -143,7 +144,8 @@ const MetadataContainer = ({
       <meta property="og:title" content={socialTitle} />
       <meta property="og:type" content={openGraphType} />
       <meta property="og:url" content={canonicalNonUkLink} />
-      <meta name="twitter:creator" content={twitterCreator} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:creator" content={metaTwitterHandle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image:alt" content={metaImageAltText} />
       <meta name="twitter:image:src" content={metaImage} />
@@ -182,7 +184,7 @@ const tagPropTypes = shape({
 MetadataContainer.propTypes = {
   title: string.isRequired,
   socialHeadline: string,
-  lang: string.isRequired,
+  twitterHandle: string,
   description: string.isRequired,
   openGraphType: string.isRequired,
   aboutTags: arrayOf(tagPropTypes),
@@ -207,6 +209,7 @@ MetadataContainer.defaultProps = {
   children: null,
   hasAppleItunesAppBanner: false,
   hasAmpPage: true,
+  twitterHandle: null,
 };
 
 export default MetadataContainer;

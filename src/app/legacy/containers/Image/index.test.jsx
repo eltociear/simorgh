@@ -6,7 +6,7 @@ import {
   suppressPropWarnings,
 } from '#psammead/psammead-test-helpers/src';
 import { blockContainingText, blockArrayModel } from '#models/blocks';
-import { ServiceContextProvider } from '#contexts/ServiceContext';
+import { ServiceContextProvider } from '../../../contexts/ServiceContext';
 import ImageContainer from './index';
 
 describe('Image', () => {
@@ -103,7 +103,7 @@ describe('Image', () => {
     it('should render an image with a sizes attribute', () => {
       render(<ImageContainer sizes="100vw" {...data} />);
 
-      const sourceEl = document.querySelector('source');
+      const sourceEl = document.querySelector('img');
 
       const sizesAttribute = sourceEl.getAttribute('sizes');
 

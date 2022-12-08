@@ -1,6 +1,6 @@
 import { useContext, useEffect } from 'react';
-import { ServiceContext } from '#contexts/ServiceContext';
 import onClient from '#lib/utilities/onClient';
+import { ServiceContext } from '../../../contexts/ServiceContext';
 
 const ServiceWorkerContainer = () => {
   const { swPath, service } = useContext(ServiceContext);
@@ -8,7 +8,7 @@ const ServiceWorkerContainer = () => {
 
   useEffect(() => {
     const shouldInstallServiceWorker =
-      envIsProduction && swPath && onClient() && 'serviceWorker' in navigator;
+      swPath && onClient() && 'serviceWorker' in navigator;
 
     if (shouldInstallServiceWorker) {
       navigator.serviceWorker.register(swPath);

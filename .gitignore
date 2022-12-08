@@ -28,3 +28,5 @@ secret.env
 tsconfig.tsbuildinfo
 .next
 .vercel
+src/app/legacy/moment-timezone-include/tz
+tsconfig.tsbuildinfo

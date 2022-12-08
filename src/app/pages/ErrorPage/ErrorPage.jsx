@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
-import { number, oneOf, string, shape } from 'prop-types';
+import { number, string, shape } from 'prop-types';
 import Head from 'next/head';
-import { ServiceContext } from '#contexts/ServiceContext';
 import ErrorMain from '#components/ErrorMain';
+import { ServiceContext } from '../../contexts/ServiceContext';
 
 /*
  * MVP Metadata for the error
  * This will be refactored out in https://github.com/bbc/simorgh/issues/1350
  */
-const ErrorMetadata = ({ dir, lang, messaging, brandName, themeColor }) => {
+const ErrorMetadata = ({ messaging, brandName, themeColor }) => {
   const { title } = messaging;
 
   const pageTitle = `${title} - ${brandName}`;
@@ -57,8 +57,6 @@ ErrorPage.propTypes = {
 };
 
 ErrorMetadata.propTypes = {
-  dir: oneOf(['rtl', 'ltr']).isRequired,
-  lang: string.isRequired,
   messaging: shape({ title: string.isRequired }).isRequired,
   brandName: string.isRequired,
   themeColor: string.isRequired,
