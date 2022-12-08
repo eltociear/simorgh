@@ -74,14 +74,8 @@ const AmpMostRead = ({ endpoint, size, wrapper: Wrapper }) => {
   return (
     <amp-script id="dataFunctions" script="local-script">
       <Wrapper>
-        <Script
-          id="local-script"
-          type="text/plain"
-          target="amp-script"
-          custom-element="amp-iframe"
-          src="https://cdn.ampproject.org/v0/amp-iframe-0.1.js"
-        >
-          `${onlyinnerscript}`
+        <Script id="local-script" type="text/plain">
+          {onlyinnerscript}
         </Script>
         <Head>
           {/* Import required amp scripts for most read */}

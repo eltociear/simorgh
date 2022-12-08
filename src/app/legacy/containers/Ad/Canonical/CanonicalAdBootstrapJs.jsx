@@ -1,3 +1,4 @@
+import React from 'react';
 import Script from 'next/script';
 import { string } from 'prop-types';
 

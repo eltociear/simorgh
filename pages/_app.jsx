@@ -36,6 +36,7 @@ const App = ({ Component, pageProps, router }) => {
         <meta name="twitter:card" content="summary_large_image" />
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
       </Head>
+
       <ToggleContextProvider toggles={toggles}>
         <ServiceContextProvider service={service} pageLang={language}>
           <RequestContextProvider

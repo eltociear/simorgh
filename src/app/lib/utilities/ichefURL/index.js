@@ -29,8 +29,7 @@ const buildIChefURL = ({
   }
 
   const url = [
-    process.env.NEXT_PUBLIC_SIMORGH_ICHEF_BASE_URL ||
-      'https://ichef.bbci.co.uk',
+    process.env.SIMORGH_ICHEF_BASE_URL || 'https://ichef.bbci.co.uk',
     'news',
     isPng ? 'png' : null,
     resolution,

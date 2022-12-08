@@ -1,5 +1,5 @@
 import React, { Fragment, useContext } from 'react';
-import PropTypes, { node } from 'prop-types';
+import { string, node } from 'prop-types';
 import path from 'ramda/src/path';
 import findIndex from 'ramda/src/findIndex';
 import styled from '@emotion/styled';
@@ -46,9 +46,9 @@ const MostReadWrapper = ({ children }) => (
   </FrontPageMostReadSection>
 );
 
-const renderMostRead = mostRead => (
+const renderMostRead = mostReadEndpointOverride => (
   <MostReadContainer
-    initialData={mostRead}
+    mostReadEndpointOverride={mostReadEndpointOverride}
     columnLayout="twoColumn"
     wrapper={MostReadWrapper}
   />
@@ -58,7 +58,7 @@ MostReadWrapper.propTypes = {
   children: node.isRequired,
 };
 
-const FrontPage = ({ pageData, mostRead }) => {
+const FrontPage = ({ pageData, mostReadEndpointOverride }) => {
   const { product, serviceLocalizedName, translations, frontPageTitle } =
     useContext(ServiceContext);
 
@@ -121,7 +121,7 @@ const FrontPage = ({ pageData, mostRead }) => {
               {group.type === 'top-stories' && <MPUContainer />}
             </Fragment>
           ))}
-          {!hasUsefulLinks && renderMostRead(mostRead)}
+          {!hasUsefulLinks && renderMostRead(mostReadEndpointOverride)}
         </IndexPageContainer>
       </main>
     </>
@@ -130,11 +130,11 @@ const FrontPage = ({ pageData, mostRead }) => {
 
 FrontPage.propTypes = {
   pageData: frontPageDataPropTypes.isRequired,
-  mostRead: PropTypes.oneOfType([PropTypes.object]),
+  mostReadEndpointOverride: string,
 };
 
 FrontPage.defaultProps = {
-  mostRead: null,
+  mostReadEndpointOverride: null,
 };
 
 export default FrontPage;

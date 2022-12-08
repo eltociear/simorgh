@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { string } from 'prop-types';
 import sendBeacon from '#lib/analyticsUtils/sendBeacon';
-import Image from 'next/image';
 
 const getNoJsATIPageViewUrl = atiPageViewUrl =>
   atiPageViewUrl.includes('x8=[simorgh]')
@@ -25,7 +25,7 @@ const renderNoScriptTrackingPixel = atiPageViewUrl => (
 
 const CanonicalATIAnalytics = ({ pageviewParams }) => {
   const [atiPageViewUrl] = useState(
-    process.env.NEXT_PUBLIC_SIMORGH_ATI_BASE_URL + pageviewParams,
+    process.env.SIMORGH_ATI_BASE_URL + pageviewParams,
   );
 
   useEffect(() => {

@@ -3,7 +3,7 @@ import path from 'ramda/src/path';
 import pathOr from 'ramda/src/pathOr';
 import propEq from 'ramda/src/propEq';
 import styled from '@emotion/styled';
-import PropTypes, { node } from 'prop-types';
+import { string, node } from 'prop-types';
 import useToggle from '#hooks/useToggle';
 
 import {
@@ -115,7 +115,7 @@ const MpuContainer = styled(AdContainer)`
   margin-bottom: ${GEL_SPACING_TRPL};
 `;
 
-const ArticlePage = ({ pageData, mostRead }) => {
+const ArticlePage = ({ pageData, mostReadEndpointOverride }) => {
   const { isAmp, showAdsBasedOnLocation } = useContext(RequestContext);
   const { articleAuthor, showRelatedTopics } = useContext(ServiceContext);
   const { enabled: preloadLeadImageToggle } = useToggle('preloadLeadImage');
@@ -276,18 +276,21 @@ const ArticlePage = ({ pageData, mostRead }) => {
         </Primary>
         <SecondaryColumn pageData={pageData} />
       </ArticlePageGrid>
-      <MostReadContainer initialData={mostRead} wrapper={MostReadWrapper} />
+      <MostReadContainer
+        mostReadEndpointOverride={mostReadEndpointOverride}
+        wrapper={MostReadWrapper}
+      />
     </Wrapper>
   );
 };
 
 ArticlePage.propTypes = {
   pageData: articleDataPropTypes.isRequired,
-  mostRead: PropTypes.oneOfType([PropTypes.object]),
+  mostReadEndpointOverride: string,
 };
 
 ArticlePage.defaultProps = {
-  mostRead: null,
+  mostReadEndpointOverride: null,
 };
 
 export default ArticlePage;

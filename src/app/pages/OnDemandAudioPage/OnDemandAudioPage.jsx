@@ -34,6 +34,10 @@ import { ServiceContext } from '../../contexts/ServiceContext';
 
 const SKIP_LINK_ANCHOR_ID = 'content';
 
+const staticAssetsPath = `${process.env.SIMORGH_PUBLIC_STATIC_ASSETS_ORIGIN}${process.env.SIMORGH_PUBLIC_STATIC_ASSETS_PATH}`;
+
+const audioPlaceholderImageSrc = `${staticAssetsPath}images/amp_audio_placeholder.png`;
+
 const getGroups = (zero, one, two, three, four, five) => ({
   group0: zero,
   group1: one,
@@ -210,7 +214,7 @@ const OnDemandAudioPage = ({ pageData, mediaIsAvailable, MediaError }) => {
               title="On-demand radio"
               type="audio"
               skin="audio"
-              placeholderSrc={'/images/amp_audio_placeholder.png'}
+              placeholderSrc={audioPlaceholderImageSrc}
             />
           ) : (
             <MediaError skin="audio" />

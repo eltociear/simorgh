@@ -6,6 +6,9 @@ import { UserContext } from '#contexts/UserContext';
 const CanonicalComscoreAnalytics = () => {
   const { personalisationEnabled } = useContext(UserContext);
 
+  const staticAssetsPath = `${process.env.SIMORGH_PUBLIC_STATIC_ASSETS_ORIGIN}${process.env.SIMORGH_PUBLIC_STATIC_ASSETS_PATH}`;
+  const comscoreScript = 'static/js/comscore/main-1.0.js';
+
   useEffect(() => {
     const csUcfr = personalisationEnabled ? '1' : '';
     /* eslint-disable no-underscore-dangle */
@@ -19,7 +22,7 @@ const CanonicalComscoreAnalytics = () => {
         id="comscore-script"
         async
         type="text/javascript"
-        src={'/static/js/comscore/main-1.0.js'}
+        src={`${staticAssetsPath}${comscoreScript}`}
       />
       <noscript>
         {`<img src="https://sb.scorecardresearch.com/p?c1=2&c2=17986528&cv=2.0&cj=1" />`}

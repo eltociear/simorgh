@@ -13,7 +13,7 @@ export default ({ item, index } = {}) => {
       campaignID: 'cps_wsoj',
       componentName: encodeURIComponent(headline),
       advertiserID,
-      url,
+      url: `${process.env.SIMORGH_BASE_URL}${url}`,
       format: `CHD=promo::${index + 1}`,
     };
 

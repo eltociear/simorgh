@@ -14,8 +14,7 @@ const WebVitals = ({ pageType }) => {
   const isWebVitalsEnabled = personalisationEnabled && enabled;
 
   const sampleRate = Number(
-    toggleSampleRate ||
-      process.env.NEXT_PUBLIC_SIMORGH_WEBVITALS_DEFAULT_SAMPLING_RATE,
+    toggleSampleRate || process.env.SIMORGH_WEBVITALS_DEFAULT_SAMPLING_RATE,
   );
 
   const wsPageType = pageType
@@ -29,8 +28,7 @@ const WebVitals = ({ pageType }) => {
 
   const webVitalsConfig = {
     enabled: isWebVitalsEnabled,
-    reportingEndpoint:
-      process.env.NEXT_PUBLIC_SIMORGH_WEBVITALS_REPORTING_ENDPOINT,
+    reportingEndpoint: process.env.SIMORGH_WEBVITALS_REPORTING_ENDPOINT,
     sampleRate,
     ...(wsPageType && {
       reportParams: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { string } from 'prop-types';
-import getAmpAnalyticsJson from './ampAnalyticsJson';
 import Script from 'next/script';
+import getAmpAnalyticsJson from './ampAnalyticsJson';
 
 const JsonInlinedScript = data => (
   <Script id="amp-analytics" strategy="lazyOnload" type="application/json">
@@ -14,7 +14,7 @@ const AmpATIAnalytics = ({ pageviewParams }) => {
     <amp-analytics>
       {JsonInlinedScript(
         getAmpAnalyticsJson({
-          baseUrl: process.env.NEXT_PUBLIC_SIMORGH_ATI_BASE_URL,
+          baseUrl: process.env.SIMORGH_ATI_BASE_URL,
           pageviewParams,
         }),
       )}
