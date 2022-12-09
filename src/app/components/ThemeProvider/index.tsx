@@ -1,5 +1,4 @@
-import loadable, { LoadableComponent } from '@loadable/component';
-import { PropsWithChildren } from 'react';
+import dynamic from 'next/dynamic';
 import { Services, Variants } from '../../models/types/global';
 import defaultServiceVariants from './defaultServiceVariants';
 
@@ -9,6 +8,7 @@ interface Props {
 }
 
 const getPathToTheme = (props: Props) => {
+  return 'mundo';
   const variant = props.variant || defaultServiceVariants[props.service];
 
   if (variant === 'default' || !variant) {
@@ -18,10 +18,8 @@ const getPathToTheme = (props: Props) => {
   return `${props.service}/${variant}`;
 };
 
-const loadTheme = /* #__LOADABLE__ */ (props: Props) =>
-  import(`./themes/${getPathToTheme(props)}`);
+const loadTheme = (props: Props) => import(`./themes/${getPathToTheme(props)}`);
 
-const ThemeProvider: LoadableComponent<PropsWithChildren<Props>> =
-  loadable(loadTheme);
+const ThemeProvider = dynamic(loadTheme);
 
 export default ThemeProvider;

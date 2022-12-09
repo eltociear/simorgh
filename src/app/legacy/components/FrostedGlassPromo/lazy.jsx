@@ -1,7 +1,7 @@
 import React from 'react';
-import loadable from '@loadable/component';
+import dynamic from 'next/dynamic';
 
-export default loadable(
+export default dynamic(
   () =>
     import(
       /* webpackChunkName: "frosted_promo" */

@@ -34,7 +34,7 @@
     "cypress:3rdParty": "yarn cypress -- --project ./3rdPartyCypress/.",
     "cypress:adhoc": "yarn cypress:interactive -- --project ./AdHocCypress/.",
     "setupDevEnv": "cp envConfig/local.env .env && cat envConfig/secret.env >> .env || echo 'You will not have access to topics'",
-    "dev": "yarn setupDevEnv && next",
+    "dev": "yarn setupDevEnv && next -p 7080",
     "lighthouse": "./scripts/lighthouseRun.sh",
     "postshrinkwrap": "test -z $CI && ./scripts/packagelockHttps.sh; git update-index --assume-unchanged .env",
     "prepare": "husky install",
