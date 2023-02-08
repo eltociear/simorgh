@@ -8,13 +8,13 @@
     "build:test": "cp ../envConfig/test.env .env && NODE_ENV=production && next build",
     "build:live": "cp ../envConfig/live.env .env && NODE_ENV=production && next build",
     "build": "yarn build:local",
-    "dev": "yarn setupDevEnv && next dev -p 7081",
+    "dev": "yarn setupDevEnv && NODE_OPTIONS='--no-experimental-fetch' next dev -p 7081",
     "start": "next start -p 7081 && NODE_ENV=production"
   },
   "devDependencies": {
     "babel-plugin-transform-rename-import": "2.3.0"
   },
   "dependencies": {
-    "next": "12.3.4"
+    "next": "13.1.5"
   }
 }
