@@ -2,7 +2,7 @@ import React from 'react';
 import { headers } from 'next/headers';
 import omit from 'ramda/src/omit';
 import bffFetch from '#app/routes/topic/getInitialData';
-import getAgent from '#server/utilities/getAgent';
+import getAgentWithUndici from '#server/utilities/getAgent/withUndici';
 import getToggles from '#app/lib/utilities/getToggles/withCache';
 import { LIVE_PAGE } from '#app/routes/utils/pageTypes';
 import nodeLogger from '#lib/logger.node';
@@ -45,7 +45,7 @@ const testFetch = async ({
   });
 
   const data = await bffFetch({
-    getAgent,
+    getAgent: getAgentWithUndici,
     page,
     path: `${id}`,
     service,
