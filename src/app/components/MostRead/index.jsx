@@ -48,56 +48,6 @@ const MostRead = ({
 
   const [items, setItems] = useState(filteredData);
 
-  useEffect(() => {
-    if (!items) {
-      const handleResponse = url => async response => {
-        if (!response.ok) {
-          throw Error(
-            `Unexpected response (HTTP status code ${response.status}) when requesting ${url}`,
-          );
-        }
-        const mostReadData = await response.json();
-        setItems(
-          processMostRead({
-            data: mostReadData,
-            isAmp,
-            numberOfItems,
-            service,
-          }),
-        );
-      };
-
-      const fetchMostReadData = pathname => {
-        logger.info(MOST_READ_CLIENT_REQUEST, { url: endpoint });
-
-        return fetch(pathname)
-          .then(handleResponse(pathname))
-          .catch(error => {
-            logger.error(MOST_READ_FETCH_ERROR, {
-              url: pathname,
-              error: error.toString(),
-            });
-          });
-      };
-
-      fetchMostReadData(endpoint);
-    }
-  }, [
-    endpoint,
-    numberOfItems,
-    datetimeLocale,
-    lastUpdated,
-    script,
-    service,
-    timezone,
-    items,
-    isAmp,
-  ]);
-
-  if (!items || items.length === 0) {
-    return null;
-  }
-
   const locale = serviceDatetimeLocale || datetimeLocale;
 
   return (
