@@ -5,7 +5,7 @@ import {
   VISUAL_STYLE,
   VISUAL_PROMINENCE,
 } from '#app/models/types/curationData';
-import MostReadContainer from '#app/legacy/containers/MostRead';
+import MostRead from '../MostRead';
 import VisuallyHiddenText from '../VisuallyHiddenText';
 import CurationGrid from './CurationGrid';
 import HierarchicalGrid from './HierarchicalGrid';
@@ -73,7 +73,7 @@ const Curation = ({
       );
     case MOST_READ:
       // @ts-expect-error spike ticket
-      return <MostReadContainer initialData={mostRead} />;
+      return <MostRead initialData={mostRead} />;
     case SIMPLE_CURATION_GRID:
     case HIERARCHICAL_CURATION_GRID:
     default:
